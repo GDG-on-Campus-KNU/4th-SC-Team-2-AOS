@@ -69,4 +69,7 @@ dependencies {
 
     implementation("androidx.compose.material3:material3:1.1.2")
     implementation "androidx.navigation:navigation-compose:2.7.5"
+    implementation("androidx.compose.foundation:foundation:1.5.0")
+    implementation "androidx.compose.runtime:runtime-livedata:1.0.5"  // 적절한 Compose 버전으로 설정
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0"  // ViewModel 관련 Compose 의존성
 }

@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.soop.*
@@ -16,17 +15,19 @@ import com.example.soop.home.widget.AddEmotionButton
 import com.example.soop.home.widget.PositiveIncreasePercentBox
 import com.example.soop.home.widget.PositiveTriggerNumberBox
 import com.example.soop.home.widget.TodayMentalTipBox
+import com.example.soop.itemlist.HomeBackgroundColorList
 
 @Composable
 fun HomeScreen() {
     val scrollState = rememberScrollState()
+    val homeBackgroundColorList = HomeBackgroundColorList()
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(Color(0xFFE0FFFE), Color(0xFFF3FCFF), Color(0xFFECFAEF))
+                    colors = homeBackgroundColorList
                 )
             ),
     ) {

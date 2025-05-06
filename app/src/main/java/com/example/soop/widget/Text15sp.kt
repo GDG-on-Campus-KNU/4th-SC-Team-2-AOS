@@ -10,17 +10,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Text14sp(
+fun Text15sp(
     text: String,
     textAlign: TextAlign = TextAlign.Start,
     modifier: Modifier = Modifier,
-    color: Color = colorResource(id = R.color.gray_text),
-    ) {
+    color: Color = Color.Black,
+) {
     Text(
         text = text,
         style = TextStyle(
             color = color,
-            fontSize = 14.sp,
+            fontSize = 15.sp,
             textAlign = textAlign
         ),
         modifier = modifier
