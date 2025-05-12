@@ -17,7 +17,7 @@ import com.example.soop.home.widget.*
 import com.example.soop.itemlist.HomeBackgroundColorList
 
 @Composable
-fun HomeScreen() {
+fun HomeFragment() {
     val scrollState = rememberScrollState()
     val homeBackgroundColorList = HomeBackgroundColorList()
     var recommendedViewModel: RecommendedExpertViewModel = viewModel()

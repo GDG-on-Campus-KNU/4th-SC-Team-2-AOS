@@ -13,8 +13,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.soop.chat.ChatScreen
-import com.example.soop.home.HomeScreen
+import com.example.soop.chat.ChatFragment
+import com.example.soop.chat.EmotionLogsFragment
+import com.example.soop.home.HomeFragment
 import com.example.soop.ui.theme.SOOPTheme
 import com.example.soop.widget.bottomNavItems
 
@@ -54,11 +55,11 @@ fun MainScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)) {
-            composable("home") { HomeScreen() }
-            composable("search") { HomeScreen() }
-            composable("write") { HomeScreen() }
-            composable("chat") { ChatScreen() }
-            composable("profile") { HomeScreen() }
+            composable("home") { HomeFragment() }
+            composable("emotion logs") { EmotionLogsFragment() }
+            composable("write") { HomeFragment() }
+            composable("chat") { ChatFragment() }
+            composable("profile") { HomeFragment() }
         }
     }
 }

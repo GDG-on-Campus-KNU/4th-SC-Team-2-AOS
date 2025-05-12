@@ -53,7 +53,7 @@ fun CreateCustomScreen(){
                 .padding(20.dp)
         ) {
             ActivityTitle(title = "Create Custom", leftIcon = R.drawable.back_arrow)
-            Spacer(modifier = Modifier.padding(20.dp))
+            Spacer(modifier = Modifier.padding(10.dp))
             Image(painter = painterResource(id = R.drawable.gradation_circle_blue),
                 contentDescription = "chatbot image",
                 modifier = Modifier

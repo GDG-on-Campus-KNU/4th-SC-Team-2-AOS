@@ -108,16 +108,10 @@ class CustomChatbotInputField {
         Column() {
             Text(text = "Empathy Level", fontSize = 16.sp, style = TextStyle(color = Color.Black))
             Spacer(modifier = Modifier.padding(5.dp))
-            RoundedWhiteBox(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-            ) {
-                EmpathyLevelSelector(
-                    selectedOption = empathyLevel,
-                    onOptionSelected = { viewModel.onEmpathyLevelChange(it) }
-                )
-            }
+            EmpathyLevelSelector(
+                selectedOption = empathyLevel,
+                onOptionSelected = { viewModel.onEmpathyLevelChange(it) }
+            )
             Spacer(modifier = Modifier.padding(10.dp))
         }
     }
@@ -130,16 +124,10 @@ class CustomChatbotInputField {
         Column() {
             Text(text = "Tone", fontSize = 16.sp, style = TextStyle(color = Color.Black))
             Spacer(modifier = Modifier.padding(5.dp))
-            RoundedWhiteBox(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-            ) {
-                ToneSelector(
-                    selectedOption = tone,
-                    onOptionSelected = { viewModel.onToneChange(it) }
-                )
-            }
+            ToneSelector(
+                selectedOption = tone,
+                onOptionSelected = { viewModel.onToneChange(it) }
+            )
             Spacer(modifier = Modifier.padding(10.dp))
         }
     }

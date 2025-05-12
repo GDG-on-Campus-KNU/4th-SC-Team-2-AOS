@@ -36,8 +36,9 @@ fun AddEmotionButton(modifier: Modifier = Modifier) {
                 style = TextStyle(color = Color.Black, fontSize = 14.sp, textAlign = TextAlign.Center)
             )
             Image(
-                painter = painterResource(id = R.drawable.next),
-                contentDescription = "move add emotion button"
+                painter = painterResource(id = R.drawable.next_circle_arrow),
+                contentDescription = "move add emotion button",
+                Modifier.size(24.dp)
             )
         }
     }

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -9,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.soop"
-        minSdk 21
+        minSdk 26
         targetSdk 34
         versionCode 1
         versionName "1.0"
@@ -27,11 +28,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     buildFeatures {
         compose true
@@ -72,4 +73,8 @@ dependencies {
     implementation("androidx.compose.foundation:foundation:1.5.0")
     implementation "androidx.compose.runtime:runtime-livedata:1.0.5"  // 적절한 Compose 버전으로 설정
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0"  // ViewModel 관련 Compose 의존성
+    def room_version = "2.6.1"
+    implementation "androidx.room:room-runtime:$room_version"  // Room 라이브러리
+    kapt "androidx.room:room-compiler:$room_version"  // Annotation Processor
+    implementation "androidx.room:room-ktx:$room_version"
 }

@@ -11,10 +11,12 @@ import androidx.compose.ui.unit.dp
 import com.example.soop.Text32sp
 import com.example.soop.R
 import com.example.soop.chat.widget.ChatTabsScreen
+import com.example.soop.emotionlogs.EmotionLogsCalendarScreen
 import com.example.soop.itemlist.BackgroundColorList
+import com.example.soop.widget.FragmentTitle
 
 @Composable
-fun ChatScreen() {
+fun EmotionLogsFragment() {
     val backgroundColorList = BackgroundColorList()
 
     Box(
@@ -31,15 +33,9 @@ fun ChatScreen() {
                 .fillMaxSize()
                 .padding(20.dp)
         ) {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp)) {
-                Text32sp("Chat")
-                Image(painter = painterResource(id = R.drawable.add), contentDescription = "add chat button", Modifier.size(40.dp))
-            }
-            ChatTabsScreen()
+            FragmentTitle(title = "Emotion Logs")
+            Spacer(Modifier.padding(10.dp))
+            EmotionLogsCalendarScreen()
         }
     }
 }
