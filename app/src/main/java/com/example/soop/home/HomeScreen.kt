@@ -10,17 +10,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.soop.*
-import com.example.soop.home.widget.AddEmotionButton
-import com.example.soop.home.widget.PositiveIncreasePercentBox
-import com.example.soop.home.widget.PositiveTriggerNumberBox
-import com.example.soop.home.widget.TodayMentalTipBox
+import com.example.soop.chat.viewmodel.RecommendedExpertViewModel
+import com.example.soop.home.widget.*
 import com.example.soop.itemlist.HomeBackgroundColorList
 
 @Composable
 fun HomeScreen() {
     val scrollState = rememberScrollState()
     val homeBackgroundColorList = HomeBackgroundColorList()
+    var recommendedViewModel: RecommendedExpertViewModel = viewModel()
 
     Box(
         modifier = Modifier
@@ -49,6 +49,8 @@ fun HomeScreen() {
             PositiveIncreasePercentBox()
             PositiveTriggerNumberBox()
             TodayMentalTipBox()
+            Spacer(modifier = Modifier.padding(10.dp))
+            RecommendedExpertList(viewModel = recommendedViewModel)
         }
     }
 }
