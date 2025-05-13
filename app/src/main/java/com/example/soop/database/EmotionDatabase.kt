@@ -29,12 +29,13 @@ abstract class EmotionDatabase : RoomDatabase() {
                             CoroutineScope(Dispatchers.IO).launch {
                                 getDatabase(context).emotionDao().insertAll(
                                     listOf(
-                                        Emotion(name = "sadness", imageIdx = 0),
-                                        Emotion(name = "anxiety", imageIdx = 1),
-                                        Emotion(name = "joy", imageIdx = 2),
-                                        Emotion(name = "gratitude", imageIdx = 3),
-                                        Emotion(name = "relief", imageIdx = 4),
-                                        Emotion(name = "boredom", imageIdx = 5)
+                                        Emotion(name = "Joy", imageIdx = 0, group = "POSITIVE"),
+                                        Emotion(name = "Gratitude", imageIdx = 1, group = "POSITIVE"),
+                                        Emotion(name = "Calm", imageIdx = 2, group = "POSITIVE"),
+                                        Emotion(name = "Sadness", imageIdx = 3, group = "NEGATIVE"),
+                                        Emotion(name = "Anger", imageIdx = 4, group = "NEGATIVE"),
+                                        Emotion(name = "Anxiety", imageIdx = 5, group = "NEGATIVE"),
+                                        Emotion(name = "Surprise", imageIdx = 6, group = "NEUTRAL"),
                                     )
                                 )
                             }

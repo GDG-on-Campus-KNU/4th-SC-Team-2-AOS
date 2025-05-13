@@ -13,12 +13,13 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun RoundedWhiteBox(
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
+    radius : Int = 24,
+    content: @Composable () -> Unit,
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color.White, shape = RoundedCornerShape(24.dp))
+            .background(Color.White, shape = RoundedCornerShape(radius.dp))
             .padding(horizontal = 20.dp, vertical = 18.dp)
     ) {
         content()

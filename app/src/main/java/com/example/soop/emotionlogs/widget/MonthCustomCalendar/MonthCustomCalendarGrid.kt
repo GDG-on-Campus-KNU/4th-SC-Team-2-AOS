@@ -15,10 +15,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.YearMonth
 
 @Composable
-fun MonthCustomCalendarGrid(year: Int, month: Int, entries: Map<LocalDate, List<Color>>) {
+fun MonthCustomCalendarGrid(year: Int, month: Int, entries: Map<LocalDateTime, List<Color>>) {
     val daysInMonth = YearMonth.of(year, month).lengthOfMonth()
     val weeks = (1..daysInMonth).chunked(7)
 
@@ -29,8 +30,8 @@ fun MonthCustomCalendarGrid(year: Int, month: Int, entries: Map<LocalDate, List<
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 for (day in week) {
-                    val date = LocalDate.of(year, month, day)
-                    MonthCustomCalendarDay(day, entries[date])
+                    val dateTime = LocalDateTime.of(year, month, day, 0, 0)
+                    MonthCustomCalendarDay(day, entries[dateTime])
                 }
 
                 repeat(7 - week.size) {

@@ -16,11 +16,25 @@ import com.example.soop.itemlist.BackgroundColorList
 import com.example.soop.ui.theme.SOOPTheme
 import com.example.soop.widget.ActivityTitle
 import androidx.compose.runtime.*
+import androidx.core.app.ActivityCompat
+import com.example.soop.database.Emotion
+import com.example.soop.emotionlogs.viewmodel.EmotionViewModel
 import com.example.soop.emotionlogs.widget.EmotionLogsCarousel
+import com.example.soop.emotionlogs.widget.EmotionTextField
+import java.time.LocalDateTime
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
 
 class AddEmotionLogActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 1)
+        }
 
         setContent {
             SOOPTheme {
@@ -35,7 +49,9 @@ fun AddEmotionLogScreen() {
     val backgroundColorList = BackgroundColorList()
     val viewModel: EmotionListViewModel = viewModel()
     val emotions by viewModel.emotions
-    val emotions1 = listOf("sadness","anxiety","joy","gratitude","relief","boredom")
+    val emotionsAdd = emotions + Emotion(name = "Your Emotion", imageIdx = 0)
+    val emotionViewModel: EmotionViewModel = viewModel()
+    val emotionTextField = EmotionTextField()
 
     Box(
         modifier = Modifier
@@ -54,15 +70,27 @@ fun AddEmotionLogScreen() {
                 Spacer(modifier = Modifier.padding(10.dp))
             }
 
-            Column(Modifier.fillMaxSize()) {
-                /*emotions.forEach { emotion ->
-                    Text(text = emotion.name)
-                }*/
-                EmotionLogsCarousel(items = emotions1, modifier = Modifier.padding(bottom = 20.dp))
+            Column() {
+                Spacer(Modifier.padding(20.dp))
+                EmotionLogsCarousel(
+                    items = emotionsAdd,
+                    modifier = Modifier.padding(bottom = 20.dp),
+                    onLastItemClick = { name ->
+                        viewModel.addEmotion(name)
+                    },
+                    viewModel = emotionViewModel,
+                    emotionTextField = emotionTextField
+                )
+            }
 
-                Button(onClick = { viewModel.addEmotion("New Emotion") }) {
-                    Text("Add Emotion")
-                }
+            Column(Modifier.padding(horizontal = 20.dp)) {
+                emotionTextField.EmotionRecordedDate(dateTime = LocalDateTime.now())
+                Spacer(Modifier.padding(5.dp))
+                emotionTextField.EmotionRecordedTime(dateTime = LocalDateTime.now(), viewModel = emotionViewModel)
+                Spacer(Modifier.padding(5.dp))
+                emotionTextField.EmotionContentTextField(
+                    viewModel = emotionViewModel
+                )
             }
         }
     }

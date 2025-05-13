@@ -14,14 +14,15 @@ import androidx.compose.ui.unit.dp
 import com.example.soop.emotionlogs.widget.CalendarModeToggleRow
 import com.example.soop.emotionlogs.widget.MonthCustomCalendar.MonthCustomCalendar
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Composable
 fun EmotionLogsCalendarScreen() {
     var calendarMode by remember { mutableStateOf(CalendarMode.Month) }
     val entries = mapOf(
-        LocalDate.of(2025, 3, 1) to listOf(Color.Green, Color.Green),
-        LocalDate.of(2025, 3, 3) to listOf(Color.Red, Color.Yellow, Color.Green),
-        LocalDate.of(2025, 3, 5) to listOf(Color(0xFFADFF2F), Color(0xFF00FA9A))
+        LocalDateTime.of(2025, 3, 1, 0, 0) to listOf(Color.Green, Color.Green),
+        LocalDateTime.of(2025, 3, 3, 0, 0) to listOf(Color.Red, Color.Yellow, Color.Green),
+        LocalDateTime.of(2025, 3, 5, 0, 0) to listOf(Color(0xFFADFF2F), Color(0xFF00FA9A))
     )
 
     Column {

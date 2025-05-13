@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import com.example.soop.R
 
 @Composable
-fun GradationCircleImage(index: Int, size: Int) {
+fun GradationCircleImage(index: Int, size: Int = 44, modifier: Modifier = Modifier) {
     val imageRes = when (index) {
         0 -> R.drawable.gradation_circle_blue
         1 -> R.drawable.gradation_circle_green
@@ -24,6 +24,6 @@ fun GradationCircleImage(index: Int, size: Int) {
     Image(
         painter = painterResource(id = imageRes),
         contentDescription = "gradation circle",
-        modifier = Modifier.size(size.dp)
+        modifier = modifier.size(size.dp)
     )
 }
