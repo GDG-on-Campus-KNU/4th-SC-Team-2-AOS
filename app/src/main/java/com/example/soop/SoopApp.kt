@@ -8,6 +8,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.example.soop.database.EmotionDatabase
 import com.example.soop.login.Splash3Screen
+import com.example.soop.network.RetrofitInstance
 
 class SoopApp : Application() {
     companion object {
@@ -31,6 +32,8 @@ class SoopApp : Application() {
         // 데이터베이스 초기화
         EmotionDatabase.getDatabase(this)
         Log.d("EmotionDB", "Database created — inserting initial data")
+
+        RetrofitInstance.init(this)
 
         // 자동 로그인 로직: 토큰 있으면 Main, 없으면 Splash3Screen
         val accessToken = securePrefs.getString("access_token", null)
