@@ -1,5 +1,7 @@
 package com.example.soop.emotionlogs.widget
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -143,21 +145,42 @@ class EmotionTextField {
     }
 
     @Composable
-    fun EmotionRecordedDate(dateTime: LocalDateTime){
+    fun EmotionRecordedDate(dateTime: LocalDateTime, viewModel: EmotionViewModel) {
+        val context = LocalContext.current
         val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, E", Locale.ENGLISH)
         val formatted = dateTime.format(formatter)
+        var textState by rememberSaveable { mutableStateOf(formatted) }
 
-        RoundedWhiteBox(radius = 12) {
+        val datePickerDialog = remember {
+            DatePickerDialog(
+                context,
+                { _, year, month, dayOfMonth ->
+                    val newDateTime = dateTime
+                        .withYear(year)
+                        .withMonth(month + 1)
+                        .withDayOfMonth(dayOfMonth)
+
+                    viewModel.onRecordedAtChange(newDateTime)
+                    textState = newDateTime.format(formatter)
+                },
+                dateTime.year,
+                dateTime.monthValue - 1,
+                dateTime.dayOfMonth
+            )
+        }
+
+        RoundedWhiteBox(radius = 12,
+            modifier = Modifier.clickable {
+                datePickerDialog.show()
+            }
+        ) {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()) {
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Date", fontSize = 16.sp, color = Color.Black)
                 Text(
-                    text = "Date",
-                    fontSize = 16.sp,
-                    color = Color.Black
-                )
-                Text(
-                    text = formatted,
+                    text = textState,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W400,
                     color = colorResource(id = R.color.middle_gray_text)
@@ -166,28 +189,48 @@ class EmotionTextField {
         }
     }
 
+
     @Composable
-    fun EmotionRecordedTime(dateTime: LocalDateTime, viewModel: EmotionViewModel){
+    fun EmotionRecordedTime(dateTime: LocalDateTime, viewModel: EmotionViewModel) {
+        val context = LocalContext.current
         val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH)
         val formatted = dateTime.format(formatter)
+        var textState by rememberSaveable { mutableStateOf(formatted) }
 
-        RoundedWhiteBox(radius = 12) {
+        val timePickerDialog = remember {
+            TimePickerDialog(
+                context,
+                { _, hour, minute ->
+                    val newDateTime = dateTime
+                        .withHour(hour)
+                        .withMinute(minute)
+
+                    viewModel.onRecordedAtChange(newDateTime)
+                    textState = newDateTime.format(formatter)
+                },
+                dateTime.hour,
+                dateTime.minute,
+                true
+            )
+        }
+
+        RoundedWhiteBox(radius = 12,
+            modifier = Modifier.clickable {
+                timePickerDialog.show()
+            }
+        ) {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()) {
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Time", fontSize = 16.sp, color = Color.Black)
                 Text(
-                    text = "Time",
-                    fontSize = 16.sp,
-                    color = Color.Black
-                )
-                Text(
-                    text = formatted,
+                    text = textState,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W400,
                     color = colorResource(id = R.color.middle_gray_text)
                 )
             }
-            viewModel.onRecordedAtChange(dateTime)
         }
     }
 

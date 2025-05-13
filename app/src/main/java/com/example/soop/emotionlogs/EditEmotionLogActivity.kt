@@ -26,7 +26,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 
-class AddEmotionLogActivity : ComponentActivity() {
+class EditEmotionLogActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,14 +38,14 @@ class AddEmotionLogActivity : ComponentActivity() {
 
         setContent {
             SOOPTheme {
-                AddEmotionLogScreen()
+                EditEmotionLogScreen()
             }
         }
     }
 }
 
 @Composable
-fun AddEmotionLogScreen() {
+fun EditEmotionLogScreen() {
     val backgroundColorList = BackgroundColorList()
     val viewModel: EmotionListViewModel = viewModel()
     val emotions by viewModel.emotions

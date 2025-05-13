@@ -1,4 +1,4 @@
-package com.example.soop.login
+package com.example.soop.network
 
 import android.content.Intent
 import com.google.android.gms.auth.api.signin.GoogleSignInClient

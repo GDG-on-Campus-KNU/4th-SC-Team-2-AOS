@@ -123,7 +123,7 @@ fun EmotionLogsCarousel(
                     }
                     .background(Color.Transparent, CircleShape)
                     .then(if (isLastItem) Modifier.clickable {
-                        onLastItemClick(textState) // ✅ 클릭 시 콜백 실행
+                        onLastItemClick(textState)
                         textState = ""
                     } else Modifier)
 
