@@ -14,7 +14,7 @@ import com.example.soop.Text24sp
 
 @Composable
 fun TodayMentalTipBox() {
-    RoundedWhiteBox(Modifier.padding(top=10.dp)) {
+    RoundedWhiteBox(Modifier.padding(top=10.dp).fillMaxWidth()) {
         Column() {
             Row() {
                 Image(

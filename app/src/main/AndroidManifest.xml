@@ -30,7 +30,9 @@
                 android:value="" />
         </activity>
         <activity android:name=".AddEmotionLogActivity" />
-        <activity android:name=".chat.ChatroomActivity" />
+        <activity
+            android:name=".chat.ChatroomActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".chat.CreateCustomActivity" />
         <activity android:name=".MainActivity" />
     </application>

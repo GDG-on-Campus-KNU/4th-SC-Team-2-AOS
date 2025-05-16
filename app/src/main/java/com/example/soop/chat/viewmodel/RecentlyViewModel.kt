@@ -2,32 +2,55 @@ package com.example.soop.chat.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.soop.chat.item.RecentlyListItemData
+import androidx.lifecycle.viewModelScope
+import com.example.soop.chat.api.getChatbotList
+import com.example.soop.chat.api.getRecentlyList
+import com.example.soop.chat.response.ChatbotListResponse
+import com.example.soop.chat.response.RecentlyListResponse
+import com.example.soop.chat.viewmodel.ChatbotViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class RecentlyViewModel : ViewModel() {
-    private val _items = MutableStateFlow<List<RecentlyListItemData>>(emptyList())
-    val items: StateFlow<List<RecentlyListItemData>> = _items.asStateFlow()
+    private val _items = MutableStateFlow<List<RecentlyListResponse>>(emptyList())
+    val items: StateFlow<List<RecentlyListResponse>> = _items.asStateFlow()
 
-    init {
-        _items.value = listOf(
-            RecentlyListItemData(0, "Work-Life Balance", "I wish I could believe that, but sometimes it just feels like I’ll never be enough.", "Today"),
-            RecentlyListItemData(1, "Coping with Sadness", "That must have been really hard to deal with.", "1day"),
-            RecentlyListItemData(2, "Overcoming Failure", "I can see why that felt so overwhelming.", "4day"),
-            RecentlyListItemData(3, "Uncertainty About the Future and Finding Direction", "No judgment, just support. Want to take a deep breath with me?", "03/22"),
-            RecentlyListItemData(4, "Dealing with Loneliness", "Alright. Inhale, hold, and exhale. You’re doing great, Sienna.", "03/20"),
-            RecentlyListItemData(5, "Stressful Works", "Thanks for saying that. I guess I just needed to let it out.", "03/17"),
-            RecentlyListItemData(6, "Stressful Works", "Thanks for saying that. I guess I just needed to let it out.", "03/17"),
-            )
-        Log.d("ChatBotViewModel", "Initialized with: ${_items.value}")
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
+    private var isInitialized = false
+
+    fun init(onError: (String) -> Unit) {
+        if (isInitialized) return
+        isInitialized = true
+        fetchRecentlyList(onError)
     }
 
-    fun addItem(item: RecentlyListItemData) {
-        val updatedList = _items.value.toMutableList()
-        updatedList.add(item)
-        _items.value = updatedList
-        Log.d("ChatBot", "addItem: $updatedList")
+    fun refresh(onError: (String) -> Unit) {
+        fetchRecentlyList(onError)
+    }
+
+    private fun fetchRecentlyList(onError: (String) -> Unit) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            getRecentlyList(
+                viewModel = this@RecentlyViewModel,
+                onError = { err ->
+                    Log.e("RecentlyViewModel", "Error loading Recently list: $err")
+                    onError(err)
+                    _isLoading.value = false
+                },
+                onSuccess = {
+                    _isLoading.value = false
+                }
+            )
+        }
+    }
+
+    fun onRecentlyListChange(list: List<RecentlyListResponse>) {
+        _items.value = list
+        Log.d("Recently", "Updated recently list: $list")
     }
 }

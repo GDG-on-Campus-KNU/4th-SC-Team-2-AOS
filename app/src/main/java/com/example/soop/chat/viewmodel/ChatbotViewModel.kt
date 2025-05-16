@@ -2,28 +2,53 @@ package com.example.soop.chat.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.soop.chat.item.ChatbotListItemData
+import androidx.lifecycle.viewModelScope
+import com.example.soop.chat.api.getChatbotList
+import com.example.soop.chat.response.ChatbotListResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class ChatbotViewModel : ViewModel() {
-    private val _items = MutableStateFlow<List<ChatbotListItemData>>(emptyList())
-    val items: StateFlow<List<ChatbotListItemData>> = _items.asStateFlow()
 
-    init {
-        _items.value = listOf(
-            ChatbotListItemData(0, "Unconditional empathy", "I give you unconditional empathy."),
-            ChatbotListItemData(1, "Professor", "It gives you academic knowledge and advice like a professor."),
-            ChatbotListItemData(2, "NurtureBot", "This bot comforts me like a mother's heart."),
-            )
-        Log.d("ChatBotViewModel", "Initialized with: ${_items.value}")
+    private val _items = MutableStateFlow<List<ChatbotListResponse>>(emptyList())
+    val items: StateFlow<List<ChatbotListResponse>> = _items.asStateFlow()
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
+    private var isInitialized = false
+
+    fun init(onError: (String) -> Unit) {
+        if (isInitialized) return
+        isInitialized = true
+        fetchChatbotList(onError)
     }
 
-    fun addItem(item: ChatbotListItemData) {
-        val updatedList = _items.value.toMutableList()
-        updatedList.add(item)
-        _items.value = updatedList
-        Log.d("ChatBot", "addItem: $updatedList")
+    fun refresh(onError: (String) -> Unit) {
+        fetchChatbotList(onError)
+    }
+
+    private fun fetchChatbotList(onError: (String) -> Unit) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            getChatbotList(
+                viewModel = this@ChatbotViewModel,
+                onError = { err ->
+                    Log.e("ChatbotViewModel", "Error loading chatbot list: $err")
+                    onError(err)
+                    _isLoading.value = false
+                },
+                onSuccess = {
+                    _isLoading.value = false
+                }
+            )
+        }
+    }
+
+    fun onChatbotListChange(list: List<ChatbotListResponse>) {
+        _items.value = list
+        Log.d("ChatBot", "Updated chatbot list: $list")
     }
 }

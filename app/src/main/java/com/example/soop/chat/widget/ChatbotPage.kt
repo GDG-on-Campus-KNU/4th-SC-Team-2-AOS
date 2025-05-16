@@ -1,25 +1,29 @@
 package com.example.soop.chat.widget
 
+import android.content.Intent
 import android.util.Log
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.getValue
-import com.example.soop.chat.item.ChatbotListItemData
+import androidx.compose.ui.platform.LocalContext
+import com.example.soop.chat.ChatroomActivity
+import com.example.soop.chat.CreateCustomActivity
+import com.example.soop.chat.api.postChatroom
+import com.example.soop.chat.response.ChatbotListResponse
 import com.example.soop.chat.viewmodel.ChatbotViewModel
 
 @Composable
-fun ChatbotPage(viewModel: ChatbotViewModel) {
+fun ChatbotPage(viewModel: ChatbotViewModel, launcher: ActivityResultLauncher<Intent>) {
     val items by viewModel.items.collectAsState()
-
-    Log.d("Compose items", "Observed items: $items")
+    val context = LocalContext.current
 
     Column(modifier = Modifier.fillMaxSize()) {
         ItemList(
@@ -28,29 +32,26 @@ fun ChatbotPage(viewModel: ChatbotViewModel) {
                 .fillMaxWidth()
                 .weight(1f),
             onItemClick = { item ->
-                Log.d("Item Clicked", "$item clicked")
+                postChatroom(chatRoomInfoId = item.id, onError = {}, onSuccess = { response ->
+                    val intent = Intent(context, ChatroomActivity::class.java)
+                    intent.putExtra("nameOfChatbot", item.name)
+                    intent.putExtra("imageOfChatbot", item.image)
+                    intent.putExtra("idOfChatroom", response.id)
+                    launcher.launch(intent)
+                })
             }
         )
-
-        Button(
-            onClick = {
-                viewModel.addItem(ChatbotListItemData(0, "Unconditional empathy", "I give you unconditional empathy."))
-            },
-            modifier = Modifier.padding(top = 16.dp)
-        ) {
-            Text("Add Item")
-        }
     }
 }
 
 
 @Composable
-fun ItemList(items: List<ChatbotListItemData>, modifier: Modifier = Modifier, onItemClick: (String) -> Unit) {
+fun ItemList(items: List<ChatbotListResponse>, modifier: Modifier = Modifier, onItemClick: (ChatbotListResponse) -> Unit) {
     Log.d("Rendering ItemList", "Rendering ${items.size} items")
 
     LazyColumn(
-        modifier = modifier.padding(top = 20.dp),  // 이곳에서 modifier를 설정
-        verticalArrangement = Arrangement.spacedBy(8.dp) // 아이템 간격을 설정
+        modifier = modifier.padding(top = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(items = items) { item ->
             Log.d("Item", "Rendering item: $item")
@@ -60,6 +61,6 @@ fun ItemList(items: List<ChatbotListItemData>, modifier: Modifier = Modifier, on
 }
 
 @Composable
-fun ListItem(item: ChatbotListItemData, onItemClick: (String) -> Unit) {
-    ChatbotItem(chatbotListItemData = item)
+fun ListItem(item: ChatbotListResponse, onItemClick: (ChatbotListResponse) -> Unit) {
+    ChatbotItem(chatbotListItemData = item, modifier = Modifier.clickable { onItemClick(item) })
 }

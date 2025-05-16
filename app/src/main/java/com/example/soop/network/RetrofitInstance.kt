@@ -2,7 +2,12 @@ package com.example.soop.network
 
 import android.content.Context
 import com.example.soop.R
+import com.example.soop.chat.api.ChatApiService
+import com.example.soop.home.api.HomeApiService
+import com.example.soop.login.api.LoginApiService
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -10,14 +15,23 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitInstance {
     private lateinit var baseUrl: String
+    private lateinit var client: OkHttpClient
 
     fun init(context: Context) {
         baseUrl = context.getString(R.string.server_url)
+
+        client = OkHttpClient.Builder()
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(15, TimeUnit.SECONDS)
+            .addInterceptor(AuthInterceptor { SecureStorage.getAccessToken(context) })
+            .addInterceptor(loggingInterceptor)
+            .build()
+
     }
 
     private val loggingInterceptor: HttpLoggingInterceptor by lazy {
         HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY // JSON 바디까지 모두 출력
+            level = HttpLoggingInterceptor.Level.BODY
         }
     }
 
@@ -29,13 +43,43 @@ object RetrofitInstance {
             .build()
     }
 
-    val apiService: ApiService by lazy {
+    val loginApiService: LoginApiService by lazy {
         Retrofit.Builder()
             .baseUrl(baseUrl)
-            .client(httpClient)
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(ApiService::class.java)
+            .create(LoginApiService::class.java)
+    }
+
+    val homeApiService: HomeApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(HomeApiService::class.java)
+    }
+
+    val chatApiService: ChatApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ChatApiService::class.java)
+    }
+}
+
+class AuthInterceptor(private val tokenProvider: () -> String?) : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val token = tokenProvider()
+        val request = chain.request().newBuilder().apply {
+            token?.let {
+                header("Authorization", "Bearer $it")
+            }
+        }.build()
+        return chain.proceed(request)
     }
 }
 

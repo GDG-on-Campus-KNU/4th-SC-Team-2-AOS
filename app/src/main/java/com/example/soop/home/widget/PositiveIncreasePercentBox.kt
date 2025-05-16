@@ -9,7 +9,7 @@ import com.example.soop.*
 
 @Composable
 fun PositiveIncreasePercentBox() {
-    RoundedWhiteBox {
+    RoundedWhiteBox(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

@@ -13,7 +13,7 @@ import com.example.soop.Text32sp
 
 @Composable
 fun PositiveTriggerNumberBox() {
-    RoundedWhiteBox(Modifier.padding(top=10.dp)) {
+    RoundedWhiteBox(Modifier.padding(top=10.dp).fillMaxWidth()) {
         Column() {
             Text14sp(text = "Recently, the most positive trigger is")
             Row(

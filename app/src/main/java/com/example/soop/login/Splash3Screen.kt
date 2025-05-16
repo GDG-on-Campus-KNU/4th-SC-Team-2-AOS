@@ -26,8 +26,9 @@ import com.example.soop.ui.theme.SOOPTheme
 import com.example.soop.GradientText
 import com.example.soop.MainActivity
 import com.example.soop.R
+import com.example.soop.login.api.registerThenLogin
 import com.example.soop.network.GoogleAuthClient
-import com.example.soop.network.SecureStorage
+import com.example.soop.widget.SendButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -118,22 +119,9 @@ fun LoginScreen(
                 contentDescription = "Splash3 emotion image",
                 alignment = Alignment.Center,
                 contentScale = ContentScale.FillHeight,
-                modifier = Modifier.height(436.dp))
-            Button(
-                onClick = onGoogleLoginClick,
-                shape = RoundedCornerShape(10.dp),
-                elevation = ButtonDefaults.buttonElevation(defaultElevation = 0.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1CE0A9)),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(bottom = 50.dp, start = 20.dp, end = 20.dp)
-            ) {
-                Text(
-                    text = "Let's Start!",
-                    style = TextStyle(color = Color.White, fontSize = 16.sp)
-                )
-            }
+                modifier = Modifier.height(436.dp)
+            )
+            SendButton("Let's start!", Modifier.padding(top = 20.dp, start = 20.dp, end = 20.dp), onGoogleLoginClick)
         }
     }
 }

@@ -29,6 +29,14 @@ fun FragmentTitle(
             .fillMaxWidth()
             .padding(top = 10.dp)) {
         Text32sp(title)
-        Image(painter = painterResource(id = R.drawable.add), contentDescription = "add button", Modifier.size(40.dp))
+        Image(painter = painterResource(
+            id = R.drawable.add),
+            contentDescription = "add button",
+            Modifier
+                .size(40.dp)
+                .clickable(enabled = onClick != null) {
+                    onClick?.invoke()
+                }
+        )
     }
 }
