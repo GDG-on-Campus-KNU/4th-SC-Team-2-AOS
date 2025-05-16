@@ -1,5 +1,6 @@
 package com.example.soop.emotionlogs.widget.MonthCustomCalendar
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,24 +15,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.soop.emotionlogs.viewmodel.CalendarEmotionViewModel
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.YearMonth
 
 @Composable
-fun MonthCustomCalendarGrid(year: Int, month: Int, entries: Map<LocalDateTime, List<Color>>) {
+fun MonthCustomCalendarGrid(
+    year: Int,
+    month: Int,
+    entries: Map<LocalDate, Int>,
+    onDayClick: (LocalDate) -> Unit
+) {
     val daysInMonth = YearMonth.of(year, month).lengthOfMonth()
     val weeks = (1..daysInMonth).chunked(7)
 
-    Column() {
-        weeks.forEachIndexed() { index,week ->
+    Column {
+        weeks.forEach { week ->
             Row(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 3.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 3.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 for (day in week) {
-                    val dateTime = LocalDateTime.of(year, month, day, 0, 0)
-                    MonthCustomCalendarDay(day, entries[dateTime])
+                    val date = LocalDate.of(year, month, day)  // LocalDate 로 생성
+                    val imageIndex = entries[date]             // 여기서 매칭
+
+                    Log.d("CalendarDayCheck", "Checking date: $date, imageIndex: $imageIndex")
+
+                    MonthCustomCalendarDay(day = day, imageIndex = imageIndex, onClick = { onDayClick(date) })
                 }
 
                 repeat(7 - week.size) {
@@ -39,13 +52,10 @@ fun MonthCustomCalendarGrid(year: Int, month: Int, entries: Map<LocalDateTime, L
                         modifier = Modifier
                             .size(40.dp)
                             .clip(CircleShape)
-                            .background(
-                               color = Color.Transparent
-                            )
-                    ) {}
+                            .background(Color.Transparent)
+                    )
                 }
             }
         }
     }
 }
-

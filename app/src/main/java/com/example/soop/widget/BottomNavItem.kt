@@ -13,7 +13,7 @@ data class BottomNavItem(
 val bottomNavItems = listOf(
     BottomNavItem("home", Icons.Default.Home, "Home"),
     BottomNavItem("emotion logs", Icons.Default.Search, "EmotionLogs"),
-    BottomNavItem("write", Icons.Default.Edit, "Write"),
+    BottomNavItem("report", Icons.Default.Edit, "Report"),
     BottomNavItem("chat", Icons.Default.DateRange, "Chat"),
     BottomNavItem("profile", Icons.Default.Person, "Profile")
 )

@@ -71,28 +71,6 @@ fun EditEmotionLogScreen() {
                 Spacer(modifier = Modifier.padding(10.dp))
             }
 
-            Column {
-                Spacer(Modifier.padding(20.dp))
-                EmotionLogsCarousel(
-                    items = emotionsAdd,
-                    modifier = Modifier.padding(bottom = 20.dp),
-                    onLastItemClick = { name ->
-                        viewModel.addEmotion(name)
-                    },
-                    viewModel = emotionViewModel,
-                    emotionTextField = emotionTextField
-                )
-            }
-
-            Column(Modifier.padding(horizontal = 20.dp), verticalArrangement = Arrangement.Bottom) {
-                emotionTextField.EmotionRecordedDate(dateTime = dateTime, viewModel = emotionViewModel)
-                Spacer(Modifier.padding(5.dp))
-                emotionTextField.EmotionRecordedTime(dateTime = dateTime, viewModel = emotionViewModel)
-                Spacer(Modifier.padding(5.dp))
-                emotionTextField.EmotionContentTextField(
-                    viewModel = emotionViewModel
-                )
-            }
         }
     }
 }

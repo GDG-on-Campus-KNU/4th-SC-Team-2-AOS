@@ -160,7 +160,7 @@ class EmotionTextField {
                         .withMonth(month + 1)
                         .withDayOfMonth(dayOfMonth)
 
-                    viewModel.onRecordedAtChange(newDateTime)
+                    viewModel.onRecordedAtChange(newDateTime.toString())
                     textState = newDateTime.format(formatter)
                 },
                 dateTime.year,
@@ -205,7 +205,7 @@ class EmotionTextField {
                         .withHour(hour)
                         .withMinute(minute)
 
-                    viewModel.onRecordedAtChange(newDateTime)
+                    viewModel.onRecordedAtChange(newDateTime.toString())
                     textState = newDateTime.format(formatter)
                 },
                 dateTime.hour,

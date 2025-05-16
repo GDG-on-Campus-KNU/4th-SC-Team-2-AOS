@@ -23,8 +23,12 @@ import com.example.soop.emotionlogs.widget.EmotionLogsCarousel
 import com.example.soop.emotionlogs.widget.EmotionTextField
 import java.time.LocalDateTime
 import android.Manifest
+import android.app.Activity.RESULT_OK
 import android.content.pm.PackageManager
+import android.util.Log
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
+import com.example.soop.emotionlogs.api.postEmotionLog
 
 class AddEmotionLogActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +57,7 @@ fun AddEmotionLogScreen() {
     val emotionViewModel: EmotionViewModel = viewModel()
     val emotionTextField = EmotionTextField()
     val dateTime = LocalDateTime.now()
+    val activity = LocalContext.current as? ComponentActivity
 
     Box(
         modifier = Modifier
@@ -67,7 +72,23 @@ fun AddEmotionLogScreen() {
                 .padding(vertical = 20.dp)
         ) {
             Box(Modifier.padding(horizontal = 20.dp)){
-                ActivityTitle(title = "Add Emotion Log", leftIcon = R.drawable.delete, rightIcon = R.drawable.check)
+                ActivityTitle(title = "Add Emotion Log", leftIcon = R.drawable.delete, rightIcon = R.drawable.check,
+                    onLeftClick = {activity?.finish()},
+                    onRightClick = {
+                        emotionViewModel.onRecordedAtChange(LocalDateTime.now().toString())
+                        postEmotionLog (
+                            name = emotionViewModel.uiState.value.emotionName,
+                            content = emotionViewModel.uiState.value.content,
+                            group = emotionViewModel.uiState.value.emotionGroup,
+                            image = emotionViewModel.uiState.value.image,
+                            recordedAt = emotionViewModel.uiState.value.recordedAt,
+                            onError = {},
+                            onSuccess = {
+                                Log.d("EmotionLog", "등록 성공")
+                                activity?.setResult(RESULT_OK) // <-- 결과 설정
+                                activity?.finish()
+                            })
+                    })
                 Spacer(modifier = Modifier.padding(10.dp))
             }
 

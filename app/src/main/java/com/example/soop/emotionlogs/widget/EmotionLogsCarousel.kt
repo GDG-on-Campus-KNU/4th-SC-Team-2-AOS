@@ -174,6 +174,9 @@ fun EmotionLogsCarousel(
                     Spacer(Modifier.padding(3.dp))
                     emotionTextField.EmotionGroupSelector(viewModel = viewModel)
                 }
+                viewModel.onImageChange(items[page].imageIdx)
+                viewModel.onNameChange(items[page].name)
+                viewModel.onGroupChange(items[page].group)
             }
         }
     }

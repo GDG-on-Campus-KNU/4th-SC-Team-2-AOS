@@ -17,8 +17,8 @@ import com.example.soop.chat.item.ChatbotListItemData
 import com.example.soop.chat.viewmodel.RecommendedExpertViewModel
 import com.example.soop.chat.widget.ChatbotItem
 import com.example.soop.chat.widget.ItemList
-import com.example.soop.home.data.RecommendedExpertItemData
 import com.example.soop.home.item.RecommendedExpertItem
+import com.example.soop.home.response.ExpertResponse
 
 @Composable
 fun RecommendedExpertList(viewModel:RecommendedExpertViewModel) {
@@ -28,7 +28,7 @@ fun RecommendedExpertList(viewModel:RecommendedExpertViewModel) {
         Text24sp(text = "Recommended Expert")
         Row() {
             ItemList(
-                items = items,
+                items = items.data,
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(1f),
@@ -41,7 +41,7 @@ fun RecommendedExpertList(viewModel:RecommendedExpertViewModel) {
 }
 
 @Composable
-fun ItemList(items: List<RecommendedExpertItemData>, modifier: Modifier = Modifier, onItemClick: (String) -> Unit) {
+fun ItemList(items: List<ExpertResponse>, modifier: Modifier = Modifier, onItemClick: (String) -> Unit) {
     Log.d("Rendering ItemList", "Rendering ${items.size} items")
 
     LazyRow(
@@ -56,6 +56,6 @@ fun ItemList(items: List<RecommendedExpertItemData>, modifier: Modifier = Modifi
 }
 
 @Composable
-fun ListItem(item: RecommendedExpertItemData, onItemClick: (String) -> Unit) {
+fun ListItem(item: ExpertResponse, onItemClick: (String) -> Unit) {
     RecommendedExpertItem(recommendedExpertItemData = item)
 }

@@ -3,6 +3,7 @@ package com.example.soop.emotionlogs.widget.MonthCustomCalendar
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -17,28 +18,30 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.soop.R
+import com.example.soop.itemlist.GradationCircleImage
 
 @Composable
-fun MonthCustomCalendarDay(day: Int, colors: List<Color>?) {
+fun MonthCustomCalendarDay(
+    day: Int,
+    imageIndex: Int?,
+    onClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .size(40.dp)
             .clip(CircleShape)
-            .background(
-                brush = if (!colors.isNullOrEmpty()) {
-                    Brush.linearGradient(colors)
-                } else {
-                    Brush.linearGradient(listOf(Color.White, Color.White))
-                }
-            )
-            .border(border = BorderStroke(width = 1.dp, color = Color(0xFFEBEBEB)), shape = CircleShape),
+            .background(Color.White)
+            .border(1.dp, Color(0xFFEBEBEB), CircleShape)
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
+        if (imageIndex != null) {
+            GradationCircleImage(index = imageIndex)
+        }
         Text(
             text = "$day",
             fontSize = 14.sp,
-            color = colorResource(R.color.middle_gray_text),
-            onTextLayout = {}
+            color = colorResource(R.color.middle_gray_text)
         )
     }
 }

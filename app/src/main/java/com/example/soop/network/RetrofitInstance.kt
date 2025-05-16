@@ -1,8 +1,11 @@
 package com.example.soop.network
 
 import android.content.Context
+import android.util.Log
 import com.example.soop.R
 import com.example.soop.chat.api.ChatApiService
+import com.example.soop.chat.api.ReportApiService
+import com.example.soop.emotionlogs.api.EmotionLogApiService
 import com.example.soop.home.api.HomeApiService
 import com.example.soop.login.api.LoginApiService
 import okhttp3.Interceptor
@@ -69,16 +72,32 @@ object RetrofitInstance {
             .build()
             .create(ChatApiService::class.java)
     }
+
+    val emotionLogApiService: EmotionLogApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(EmotionLogApiService::class.java)
+    }
+
+    val reportApiService: ReportApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ReportApiService::class.java)
+    }
 }
 
 class AuthInterceptor(private val tokenProvider: () -> String?) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val token = tokenProvider()
-        val request = chain.request().newBuilder().apply {
-            token?.let {
-                header("Authorization", "Bearer $it")
-            }
-        }.build()
+        val request = chain.request().newBuilder()
+            .header("Authorization", "Bearer $token")
+            .build()
         return chain.proceed(request)
     }
 }

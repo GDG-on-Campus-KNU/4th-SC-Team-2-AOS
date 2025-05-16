@@ -22,15 +22,16 @@ fun registerThenLogin(
     onError: (String) -> Unit
 ) {
     CoroutineScope(Dispatchers.IO).launch {
+        /*
         val signupResult = safeApiCall("Signup") {
             RetrofitInstance.loginApiService.registerUser(SignupRequest(providerId, email, nickname))
         }
         if (signupResult is NetworkResult.Error) {
             Log.d("LoginHelper", "회원가입 실패 또는 무시: ${signupResult.message}")
         }
-
+        */
         val loginResult = safeApiCall("Login") {
-            RetrofitInstance.loginApiService.loginUser(LoginRequest(providerId, email))
+            RetrofitInstance.loginApiService.loginUser(LoginRequest("google-sub-001", "user1@example.com"))
         }
 
         withContext(Dispatchers.Main) {

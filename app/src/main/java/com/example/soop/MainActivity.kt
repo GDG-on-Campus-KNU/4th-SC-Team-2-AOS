@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.soop.chat.ChatFragment
 import com.example.soop.chat.EmotionLogsFragment
 import com.example.soop.home.HomeFragment
+import com.example.soop.report.ReportFragment
 import com.example.soop.ui.theme.SOOPTheme
 import com.example.soop.widget.bottomNavItems
 
@@ -42,7 +43,15 @@ fun MainScreen() {
                 bottomNavItems.forEach { item ->
                     BottomNavigationItem(
                         selected = currentDestination?.route == item.route,
-                        onClick = { navController.navigate(item.route) },
+                        onClick = {
+                            navController.navigate(item.route) {
+                                launchSingleTop = true
+                                popUpTo(navController.graph.startDestinationId) {
+                                    saveState = true
+                                }
+                                restoreState = true
+                            }
+                        },
                         icon = { Icon(item.icon, contentDescription = item.label) },
                         label = { Text(item.label) }
                     )
@@ -57,7 +66,7 @@ fun MainScreen() {
                 .padding(innerPadding)) {
             composable("home") { HomeFragment() }
             composable("emotion logs") { EmotionLogsFragment() }
-            composable("write") { HomeFragment() }
+            composable("report") { ReportFragment() }
             composable("chat") { ChatFragment() }
             composable("profile") { HomeFragment() }
         }

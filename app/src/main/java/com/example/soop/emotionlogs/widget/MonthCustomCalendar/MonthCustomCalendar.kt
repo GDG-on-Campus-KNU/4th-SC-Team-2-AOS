@@ -15,15 +15,20 @@ import java.time.LocalDateTime
 fun MonthCustomCalendar(
     year: Int,
     month: Int,
-    entries: Map<LocalDateTime, List<Color>>, // 날짜별 기록 색상 (여러 개 가능)
-    onMonthChange: (Int, Int) -> Unit
+    entries: Map<LocalDate, Int>,
+    onMonthChange: (Int, Int) -> Unit,
+    onDayClick: (LocalDate) -> Unit
 ) {
     RoundedWhiteBox {
         Column {
             MonthCustomCalendarHeader(year, month, onMonthChange)
             Spacer(modifier = Modifier.height(16.dp))
-            MonthCustomCalendarGrid(year, month, entries)
+            MonthCustomCalendarGrid(
+                year = year,
+                month = month,
+                entries = entries,
+                onDayClick = onDayClick
+            )
         }
     }
-
 }

@@ -16,15 +16,15 @@ import androidx.compose.ui.unit.sp
 import com.example.soop.R
 import com.example.soop.RoundedWhiteBox
 import com.example.soop.Text12sp
-import com.example.soop.home.data.RecommendedExpertItemData
+import com.example.soop.home.response.ExpertResponse
 import com.example.soop.itemlist.ExpertImage
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
-fun RecommendedExpertItem(recommendedExpertItemData: RecommendedExpertItemData) {
-    val imageIndex = recommendedExpertItemData.expertImage
-    val name = recommendedExpertItemData.expertName
-    val bio = recommendedExpertItemData.expertBio
+fun RecommendedExpertItem(recommendedExpertItemData: ExpertResponse) {
+    val imageIndex = recommendedExpertItemData.image
+    val name = recommendedExpertItemData.nickname
+    val bio = recommendedExpertItemData.bio
 
     RoundedWhiteBox(modifier = Modifier.size(width = 171.dp, height = 161.dp)) {
         Column(modifier = Modifier.fillMaxSize()) {
